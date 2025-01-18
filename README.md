@@ -1,4 +1,21 @@
-# pixtrm
+![pixtrm](https://raw.githubusercontent.com/nathaneltitane/pixtrm/main/pixtrm.svg)
+
+[![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ)
+
+[[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 01-18-2025 ]
+
+---
+
+### NOTICE
+
+01-18-2025 ↴
+
+- Initial release
+
+---
+
+### Welcome to [PixTrm](https://dextop.app)
+
 Display images in terminal using base64-encoded inline image display protocol
 
 This script enables displaying images directly in the terminal using a base64-encoded inline image display protocol. It provides various options for resizing, stretching, and parsing image files, whether local or remote. Users can adjust the dimensions of the displayed image and specify the input type, ensuring flexibility and ease of use.
