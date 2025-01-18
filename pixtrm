@@ -164,7 +164,8 @@ do
 
 		*)
 			echo
-			echo -e "Usage: ${script} -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Type] | [-l]"
+			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
+
 			echo
 			echo -e "${script}: Unknown option '${1}'"
 			echo -e "Type './${script} --help' for help and usage information."
