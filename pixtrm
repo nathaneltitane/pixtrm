@@ -60,6 +60,10 @@ version="01-18-2023"
 
 while (($#))
 do
+	image="${1}"
+
+	shift
+
 	case "${1}"
 	in
 		-i | --inline)
@@ -90,22 +94,6 @@ do
 			option="stretch"
 		;;
 
-		-f | --file)
-			option="file"
-
-			image="${2}"
-
-			shift
-		;;
-
-		-u | --url)
-			option="url"
-
-			image="${2}"
-
-			shift
-		;;
-
 		-t | --type)
 			option="type"
 
@@ -124,7 +112,7 @@ do
 
 		-h | --help)
 			echo
-			echo -e "Usage: ${script} -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Type] | [-b]"
+			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
 			echo
 			echo -e "Display images in terminal using base64-encoded inline image display protocol"
 			echo
@@ -136,9 +124,6 @@ do
 			echo -e "-h, --height     set image height to n character cells"
 			echo -e "-w, --width      set image width to n character cells"
 			echo -e "-s, --stretch    stretch image to specified width and height"
-			echo
-			echo -e "-f, --file       interpret following filename arguments as local files"
-			echo -e "-u, --url        interpret following filename arguments as remote urls"
 			echo
 			echo -e "-t, --type       provide a type hint to disambiguate parsing/processing"
 			echo -e "-b, --block      use standard protocol - transfers image as a single monolithic block/control sequence"
@@ -168,8 +153,6 @@ do
 			echo
 			echo -e "    cat image-01.png | ${script} -w 75%"
 			echo -e "    cat image-02.jpg | ${script} -h 30%"
-			echo
-			echo -e "    ${script} -n -w 500px -u http://host.url/path/to/image.gif -w 80 -f image.png"
 			echo
 			echo -e "    cat url-list[.txt] | xargs ${script} -n -w 40 -u"
 			echo
@@ -407,8 +390,6 @@ block="1"
 
 type=""
 
-url="false"
-
 # options //////////////////////////////////////////////////////////////////////
 
 if [ -t 0 ]
@@ -439,20 +420,6 @@ then
 	ratio="0"
 else
 	ratio="1"
-fi
-
-if [[ "${option}" = "file" ]]
-then
-	input="tty"
-
-	url="false"
-
-elif [[ "${option}" = "url" ]]
-then
-	input="tty"
-
-	url="true"
-
 fi
 
 if [[ "${option}" = "block" ]]
@@ -491,7 +458,6 @@ else
 
 	exit 2
 fi
-
 
 if [ -n "${height}" ]
 then
