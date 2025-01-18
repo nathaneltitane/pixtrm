@@ -24,7 +24,7 @@ It provides various options for resizing, stretching, and parsing image files, w
 
 ---
 
-Usage
+### Usage:
 
 bash pixtrm -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Type] | [-b]
 
@@ -64,39 +64,7 @@ Show help and usage information.
 
 ---
 
-Image Sizing
-
-If width or height are not specified, the script will automatically determine appropriate values.
-
----
-
-Dimension Formats
-
-Numeric (n): Specifies the number of terminal character cells.
-
-Pixels (npx): Specifies the size in pixels.
-
-Percentage (n%): Specifies a percentage of the terminal session's width or height.
-
-Auto (auto): Automatically calculates dimensions based on the image size.
-
----
-
-File Type
-
-The file type can be:
-
-A MIME type (e.g., text/markdown).
-
-A language name (e.g., Java).
-
-A file extension (e.g., .sh).
-
-When the filename is unavailable (e.g., piped input), the --type option helps to disambiguate the file's type. Generally, the script infers file type from the extension or content.
-
----
-
-Usage Examples
+### Usage Examples:
 
 Display a local image with specific dimensions:
 
@@ -136,6 +104,34 @@ Display a JSON configuration file:
 ```
 bash pixtrm -t application/json config.json
 ```
+
+---
+
+### Image Sizing:
+
+If width or height are not specified, the script will automatically determine appropriate values:
+
+Numeric (n): Specifies the number of terminal character cells.
+
+Pixels (npx): Specifies the size in pixels.
+
+Percentage (n%): Specifies a percentage of the terminal session's width or height.
+
+Automatic (auto): Automatically calculates dimensions based on the image size.
+
+---
+
+### File Type:
+
+The file type can be:
+
+A MIME type (e.g., text/markdown).
+
+A language name (e.g., Java).
+
+A file extension (e.g., .sh).
+
+When the filename is unavailable (e.g., piped input), the --type option helps to disambiguate the file's type. Generally, the script infers file type from the extension or content.
 
 ---
 
