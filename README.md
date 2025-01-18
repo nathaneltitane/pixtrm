@@ -81,27 +81,47 @@ Usage Examples
 
 Display a local image with specific dimensions:
 
+```
 ${script} -w 250px -h 250px -s image.png
+```
 
 Display an image from a pipe with percentage-based width:
 
+```
+
 cat image-01.png | ${script} -w 75%
+```
+
 
 Display an image with percentage-based height:
 
+```
+
 cat image-02.jpg | ${script} -h 30%
+```
+
 
 Parse and display a remote URL and a local file:
 
+```
+
 ${script} -n -w 500px -u http://host.url/path/to/image.gif -w 80 -f image.png
+```
+
 
 Display images from a list of URLs:
 
+```
+
 cat url-list[.txt] | xargs ${script} -n -w 40 -u
+```
 
 Display a JSON configuration file:
 
+```
+
 ${script} -t application/json config.json
+```
 
 ---
 
