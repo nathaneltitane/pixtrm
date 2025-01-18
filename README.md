@@ -14,7 +14,7 @@
 
 ---
 
-### Welcome to [PixTrm](https://dextop.app)
+### Welcome to PixTrm
 
 Display images in terminal using base64-encoded inline image display protocol
 
