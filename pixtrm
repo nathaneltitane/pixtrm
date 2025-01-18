@@ -60,10 +60,6 @@ version="01-18-2023"
 
 while (($#))
 do
-	image="${1}"
-
-	shift
-
 	case "${1}"
 	in
 		-i | --inline)
@@ -178,8 +174,12 @@ do
 
 	shift
 
+
 done
 
+image="${1}"
+
+shift
 # functions ////////////////////////////////////////////////////////////////////
 
 image_osc () {
@@ -378,6 +378,8 @@ image_print () {
 }
 
 # defaults /////////////////////////////////////////////////////////////////////
+
+image="${image}"
 
 input="${input}"
 
