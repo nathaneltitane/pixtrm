@@ -203,7 +203,8 @@ image_osc () {
 	# osc - opening sequence characters
 	# verify terminal multiplexer instance and type
 
-	if [[ "${TERM}" == screen* || "${TERM}" == tmux* ]]
+	if [[ "${TERM}" == screen* ]] || \
+		[[ "${TERM}" == tmux* ]]
 	then
 		printf "\033Ptmux;\033\033]"
 	else
