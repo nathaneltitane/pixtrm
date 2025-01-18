@@ -120,7 +120,7 @@ ${script} -t application/json config.json
 
 ---
 
-Notes
+### Notes:
 
 Ensure your terminal supports inline image display protocols.
 
