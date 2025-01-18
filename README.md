@@ -155,6 +155,8 @@ Use appropriate dimension formats for better control over the display.
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/nathaneltitane?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=NATHANEL+TITANE)](https://github.com/nathaneltitane/nathaneltitane)
 
+[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/pewpewprints?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=PEWPEWPRINTS)](https://github.com/nathaneltitane/pewpewprints)
+
 ---
 
 [[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 01-18-2025 ]
