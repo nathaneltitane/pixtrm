@@ -470,7 +470,7 @@ then
 	exit 1
 fi
 
-if [ "${url}" = "true" ]
+if [[ "${image}" =~ ^(https?://)?[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})?(:[0-9]{1,5})?(/.*)?$ ]]
 then
 	encoding=$(curl -s -L "${image}" | base64 -w 0)
 
@@ -481,20 +481,17 @@ then
 
 		exit 2
 	fi
-fi
 
-if [ "${url}" = "false" ]
+elif [ -r "${image}" ]
 then
-	if [ -r "${image}" ]
-	then
-		encoding=$(cat "${image}" | base64 -w 0)
-	else
-		frobulator.err "${script}: ${image}: No such file or directory"
-		echo
+	encoding=$(cat "${image}" | base64 -w 0)
+else
+	frobulator.err "${script}: ${image}: No such file or directory"
+	echo
 
-		exit 2
-	fi
+	exit 2
 fi
+
 
 if [ -n "${height}" ]
 then
