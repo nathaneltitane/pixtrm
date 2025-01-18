@@ -140,7 +140,7 @@ Use appropriate dimension formats for better control over the display.
 
 ---
 
-[[ Dextop // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 01-18-2025 ]
+[[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 01-18-2025 ]
 
 ### Enjoying Dextop? Buy me a coffee to show your appreciation!
 
