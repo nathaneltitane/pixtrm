@@ -16,9 +16,11 @@
 
 ### Welcome to PixTrm
 
-Display images in terminal using base64-encoded inline image display protocol
+Display images in terminal using base64-encoded inline image display protocol!
 
-This script enables displaying images directly in the terminal using a base64-encoded inline image display protocol. It provides various options for resizing, stretching, and parsing image files, whether local or remote. Users can adjust the dimensions of the displayed image and specify the input type, ensuring flexibility and ease of use.
+This script enables displaying images directly in the terminal using a base64-encoded inline image display protocol.
+
+It provides various options for resizing, stretching, and parsing image files, whether local or remote. Users can adjust the dimensions of the displayed image and specify the input type, ensuring flexibility and ease of use.
 
 ---
 
