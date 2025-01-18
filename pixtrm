@@ -248,6 +248,7 @@ image_parse () {
 
 	# ${2} inline:      0 - download image
 	#                   1 - display inline
+
 	# ${3} encoding:    base64-encoded image contents
 
 	# ${4} name:        0 - no filename display after image processing
