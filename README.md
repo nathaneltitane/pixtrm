@@ -33,35 +33,25 @@ bash pixtrm -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Ty
 
 Options
 
--i, --inline
-Display the image inline in the terminal.
+-i, --inline              Display the image inline in the terminal.
 
--n, --name
-Display the filename after parsing the image.
+-n, --name                Display the filename after parsing the image.
 
--h, --height [Height]
-Set the image height in terminal character cells.
+-h, --height [Height]     Set the image height in terminal character cells.
 
--w, --width [Width]
-Set the image width in terminal character cells.
+-w, --width [Width]       Set the image width in terminal character cells.
 
--s, --stretch
-Stretch the image to the specified width and height.
+-s, --stretch             Stretch the image to the specified width and height.
 
--f, --file
-Treat following arguments as local file paths.
+-f, --file                Treat following arguments as local file paths.
 
--u, --url
-Treat following arguments as remote URLs.
+-u, --url                 Treat following arguments as remote URLs.
 
--t, --type [File Type]
-Provide a type hint to assist with parsing or processing, especially for piped input.
+-t, --type [File Type]    Provide a type hint to assist with parsing or processing, especially for piped input.
 
--b, --block
-Use the standard protocol to transfer the image as a single monolithic block or control sequence.
+-b, --block               Use the standard protocol to transfer the image as a single monolithic block or control sequence.
 
--h, --help
-Show help and usage information.
+-h, --help                Show help and usage information.
 ```
 
 ---
