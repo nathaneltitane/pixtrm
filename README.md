@@ -25,6 +25,7 @@ It provides various options for resizing, stretching, and parsing image files, w
 ---
 
 ### Usage:
+```
 
 bash pixtrm -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Type] | [-b]
 
@@ -61,6 +62,7 @@ Use the standard protocol to transfer the image as a single monolithic block or 
 
 -h, --help
 Show help and usage information.
+```
 
 ---
 
