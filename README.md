@@ -29,8 +29,6 @@ It provides various options for resizing, stretching, and parsing image files, w
 
 bash pixtrm -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Type] | [-b]
 
----
-
 Options
 
 -i, --inline              Display the image inline in the terminal.
