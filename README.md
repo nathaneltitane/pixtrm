@@ -25,6 +25,7 @@ It provides various options for resizing, stretching, and parsing image files, w
 ---
 
 ### Usage:
+
 ```
 
 bash pixtrm -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Type] | [-b]
@@ -102,13 +103,13 @@ bash pixtrm -t application/json config.json
 
 If width or height are not specified, the script will automatically determine appropriate values:
 
-Numeric (n): Specifies the number of terminal character cells.
+- Numeric (n): Specifies the number of terminal character cells.
 
-Pixels (npx): Specifies the size in pixels.
+- Pixels (npx): Specifies the size in pixels.
 
-Percentage (n%): Specifies a percentage of the terminal session's width or height.
+- Percentage (n%): Specifies a percentage of the terminal session's width or height.
 
-Automatic (auto): Automatically calculates dimensions based on the image size.
+- Automatic (auto): Automatically calculates dimensions based on the image size.
 
 ---
 
@@ -116,13 +117,16 @@ Automatic (auto): Automatically calculates dimensions based on the image size.
 
 The file type can be:
 
-A MIME type (e.g., text/markdown).
+- A MIME type (text/markdown)
 
-A language name (e.g., Java).
+- A language name (Java)
 
-A file extension (e.g., .sh).
+- A file extension (.sh)
 
-When the filename is unavailable (e.g., piped input), the --type option helps to disambiguate the file's type. Generally, the script infers file type from the extension or content.
+Note:
+
+The script infers file type from the extension or content:
+when the filename is unavailable (piped input), the '--type' option is used to disambiguate the file type.
 
 ---
 
@@ -159,3 +163,4 @@ Use appropriate dimension formats for better control over the display.
 ### Enjoying Dextop? Buy me a coffee to show your appreciation!
 
 [![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ)
+
