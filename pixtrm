@@ -112,7 +112,7 @@ do
 			shift
 		;;
 
-		-h | --help)
+		--help)
 			echo
 			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
 			echo
