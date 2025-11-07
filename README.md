@@ -72,6 +72,22 @@ cat photo.png | pixtrm -w 50%
 
 ---
 
+### Protocol
+
+PixTrm implements the OSC 1337 inline image protocol:
+
+- Detects tmux or screen multiplexer and adapts control sequences.
+- Uses monolithic (--block) or multipart (200-byte) encoded chunks for reliability.
+- Encodes data via base64 before inline transmission.
+
+---
+
+### Notes
+
+- Requires a terminal that supports inline image protocols (e.g., iTerm2, Kitty, WezTerm).
+- Ideal for displaying previews, diagrams, or assets directly within the CLI.
+- Fully portable and compatible with Debian-based and Termux environments.
+
 ### Features
 
 - Display images inline in terminal using base64-encoded OSC protocol
@@ -90,6 +106,9 @@ cat photo.png | pixtrm -w 50%
 ```
 pixtrm [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]
 ```
+
+---
+
 
 ### Options
 
@@ -164,23 +183,6 @@ Examples ↴
 | Markdown           | text/markdown     |
 | Language           | Python            |
 
----
-
-### Protocol
-
-PixTrm implements the OSC 1337 inline image protocol:
-
-- Detects tmux or screen multiplexer and adapts control sequences.
-- Uses monolithic (--block) or multipart (200-byte) encoded chunks for reliability.
-- Encodes data via base64 before inline transmission.
-
----
-
-### Notes
-
-- Requires a terminal that supports inline image protocols (e.g., iTerm2, Kitty, WezTerm).
-- Ideal for displaying previews, diagrams, or assets directly within the CLI.
-- Fully portable and compatible with Debian-based and Termux environments.
 
 ---
 
