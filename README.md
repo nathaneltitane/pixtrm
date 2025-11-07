@@ -153,7 +153,7 @@ If width or height are not specified, PixTrm automatically determines appropriat
 
 ### File Type Hints
 
-File type hints (--type) improve handling of files or streams where the extension is unavailable.
+File type hints ('--type' argument) improve handling of files or streams where the extension is unavailable.
 
 Examples ↴
 
