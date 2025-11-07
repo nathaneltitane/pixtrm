@@ -71,14 +71,14 @@ PixTrm automatically manages dependencies (curl, frobulator) and can read images
 
 ### Features
 
-* Display images inline in terminal using base64-encoded OSC protocol
-* Support for local files, URLs, and stdin pipelines
-* Adjustable width and height in characters, pixels, or percentages
-* Stretch or preserve aspect ratio control
-* Optional filename display after render
-* MIME-type and format hinting (--type) for disambiguation
-* Compatible with tmux and screen multiplexers
-* Uses [frobulator](https://github.com/nathaneltitane/frobulator) for logging, progress, and error handling
+- Display images inline in terminal using base64-encoded OSC protocol
+- Support for local files, URLs, and stdin pipelines
+- Adjustable width and height in characters, pixels, or percentages
+- Stretch or preserve aspect ratio control
+- Optional filename display after render
+- MIME-type and format hinting (--type) for disambiguation
+- Compatible with tmux and screen multiplexers
+- Uses [frobulator](https://github.com/nathaneltitane/frobulator) for logging, progress, and error handling
 
 ---
 
@@ -167,17 +167,17 @@ Examples ↴
 
 PixTrm implements the OSC 1337 inline image protocol:
 
-* Detects tmux or screen multiplexer and adapts control sequences.
-* Uses monolithic (--block) or multipart (200-byte) encoded chunks for reliability.
-* Encodes data via base64 before inline transmission.
+- Detects tmux or screen multiplexer and adapts control sequences.
+- Uses monolithic (--block) or multipart (200-byte) encoded chunks for reliability.
+- Encodes data via base64 before inline transmission.
 
 ---
 
 ### Notes
 
-* Requires a terminal that supports inline image protocols (e.g., iTerm2, Kitty, WezTerm).
-* Ideal for displaying previews, diagrams, or assets directly within the CLI.
-* Fully portable and compatible with Debian-based and Termux environments.
+- Requires a terminal that supports inline image protocols (e.g., iTerm2, Kitty, WezTerm).
+- Ideal for displaying previews, diagrams, or assets directly within the CLI.
+- Fully portable and compatible with Debian-based and Termux environments.
 
 ---
 
