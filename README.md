@@ -157,12 +157,12 @@ File type hints (--type) improve handling of files or streams where the extensio
 
 Examples ↴
 
-| Input       | Type Hint Example |
-| ----------- | ----------------- |
-| JSON config | application/json  |
-| Script      | .sh               |
-| Markdown    | text/markdown     |
-| Language    | Python            |
+| Input              | Type Hint Example |
+| ------------------ | ----------------- |
+| JSON configuration | application/json  |
+| Script             | .sh               |
+| Markdown           | text/markdown     |
+| Language           | Python            |
 
 ---
 
