@@ -20,13 +20,18 @@ Display images in terminal using base64-encoded inline image display protocol!
 
 This script enables displaying images directly in the terminal using a base64-encoded inline image display protocol.
 
-It provides various options for resizing, stretching, and parsing image files, whether local or remote. Users can adjust the dimensions of the displayed image and specify the input type, ensuring flexibility and ease of use.
+It provides various options for resizing, stretching, and parsing image files, whether local or remote.
+
+Users can adjust the dimensions of the displayed image and specify the input type, ensuring flexibility and ease of use.
 
 ### TL;DR
 
 PixTrm is a Bash terminal utility that lets you display images directly in your terminal, using a base64-encoded inline image protocol (compatible with terminals supporting iTerm2 or Kitty-style OSC 1337 sequences).
 
-Quick start:
+The script automatically installs and manages what it needs:
+
+- curl
+- frobulator (auto-downloaded to ~/.local/bin/frobulator if missing)
 
 Clone the repository ↴
 
@@ -65,8 +70,6 @@ bash pixtrm -s -w 75% -h auto image.jpg
 cat photo.png | pixtrm -w 50%
 ```
 
-PixTrm automatically manages dependencies (curl, frobulator) and can read images from both local files and remote URLs.
-
 ---
 
 ### Features
@@ -99,7 +102,7 @@ pixtrm [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]
 | `-s`     | `--stretch`     | Stretch image to specified width and height           |
 | `-t`     | `--type [Type]` | Provide type hint (application/json, .sh, Python)     |
 | `-b`     | `--block`       | Send image as single block (monolithic transfer)      |
-| `--help` | —               | Show help and usage information                       |
+| `-h`     | `--help`        | Show help and usage information                       |
 
 Examples:
 
