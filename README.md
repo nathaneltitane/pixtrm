@@ -102,7 +102,7 @@ pixtrm [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]
 | `-s`     | `--stretch`     | Stretch image to specified width and height           |
 | `-t`     | `--type [Type]` | Provide type hint (application/json, .sh, Python)     |
 | `-b`     | `--block`       | Send image as single block (monolithic transfer)      |
-| `-h`     | `--help`        | Show help and usage information                       |
+|          | `--help`        | Show help and usage information                       |
 
 Examples:
 
