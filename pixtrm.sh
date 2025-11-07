@@ -1,0 +1,477 @@
+#!/bin/bash
+
+# dependencies /////////////////////////////////////////////////////////////////
+
+if [ -f "${HOME}"/.local/bin/frobulator ]
+then
+	rm -r -f "${HOME}"/.local/bin/frobulator
+fi
+
+if [[ -z $(command -v frobulator) ]]
+then
+	if [[ $(id -u -n) = "root" ]]
+	then
+		SUDO_HOME=/root
+
+		USER="${SUDO_USER}"
+
+		HOME=/home/"${USER}"
+	fi
+
+	if [[ -z $(command -v curl) ]]
+	then
+		yes | apt-get install curl
+	fi
+
+	if [ ! -d "${HOME}"/.local/bin ]
+	then
+		mkdir -p "${HOME}"/.local/bin
+	fi
+
+	if [[ $(id -u -n) = "root" ]]
+	then
+		chown "${USER}":"${USER}" "${HOME}"/.local/*
+
+		chmod -R 777 "${HOME}"/.local/*
+	fi
+
+	curl -s -L get.frbltr.app > "${HOME}"/.local/bin/frobulator
+
+	chmod +x "${HOME}"/.local/bin/frobulator
+fi
+
+. "${HOME}"/.local/bin/frobulator
+
+# superuser ////////////////////////////////////////////////////////////////////
+
+export self_arguments="${@}"
+
+# frobulator.escalate
+
+# script ///////////////////////////////////////////////////////////////////////
+
+script=$(basename -- "${BASH_SOURCE[0]}")
+
+# version //////////////////////////////////////////////////////////////////////
+
+version="01-18-2023"
+
+# variables ////////////////////////////////////////////////////////////////////
+
+image="${1}"
+
+shift
+
+# usage ////////////////////////////////////////////////////////////////////////
+
+while (($#))
+do
+	case "${1}"
+	in
+		-i | --inline)
+			option="inline"
+		;;
+
+		-n | --name)
+			option="name"
+		;;
+
+		-h | --height)
+			option="height"
+
+			height="${2}"
+
+			shift
+		;;
+
+		-w | --width)
+			option="width"
+
+			width="${2}"
+
+			shift
+		;;
+
+		-s | --stretch)
+			option="stretch"
+		;;
+
+		-t | --type)
+			option="type"
+
+			type="${2}"
+
+			shift
+		;;
+
+		-b | --block)
+			option="block"
+
+			block="${2}"
+
+			shift
+		;;
+
+		-h | --help)
+			echo
+			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
+			echo
+			echo -e "Display images in terminal using base64-encoded inline image display protocol"
+			echo
+			echo -e "Options:"
+			echo
+			echo -e "-i, --inline     display image inline"
+			echo -e "-n, --name       display filename after parsing image"
+			echo
+			echo -e "-h, --height     set image height to n character cells"
+			echo -e "-w, --width      set image width to n character cells"
+			echo -e "-s, --stretch    stretch image to specified width and height"
+			echo
+			echo -e "-t, --type       provide a type hint to disambiguate parsing/processing"
+			echo -e "-b, --block      use standard protocol - transfers image as a single monolithic block/control sequence"
+			echo
+			echo -e "-h, --help       show help and usage information."
+			echo
+			echo -e "Image sizing:"
+			echo
+			echo -e "    If width or height are not specified, an appropriate value will be chosen automatically."
+			echo -e "    Width and height are given as 'auto' or numeric digit n, defined as the number of terminal character cells."
+			echo
+			echo -e "    n      character cells"
+			echo -e "    npx    pixels"
+			echo -e "    n%     percent of the session's width or height"
+			echo
+			echo -e "    auto   the imagesize will be used to determine the appropriate dimension dimension"
+			echo
+			echo -e "File type:"
+			echo
+			echo -e "    The file type can be a mime type (i.e.: text/markdown), a language name (i.e: Java), or a file extension i.e.: (.sh)"
+			echo -e "    The file type can usually be inferred from the extension or its contents."
+			echo -e "    The type option is most useful when a filename is not available, such as whe input comes from a pipe."
+			echo
+			echo -e "Usage examples:"
+			echo
+			echo -e "    ${script} -w 250px -h 250px -s image.png"
+			echo
+			echo -e "    cat image-01.png | ${script} -w 75%"
+			echo -e "    cat image-02.jpg | ${script} -h 30%"
+			echo
+			echo -e "    cat url-list[.txt] | xargs ${script} -n -w 40 -u"
+			echo
+			echo -e "    ${script} -t application/json config.json"
+			echo
+
+			exit
+		;;
+
+		*)
+			echo
+			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
+
+			echo
+			echo -e "${script}: Unknown option '${1}'"
+			echo -e "Type './${script} --help' for help and usage information."
+			echo
+
+			exit 1
+		;;
+
+	esac
+
+	shift
+
+done
+
+# functions ////////////////////////////////////////////////////////////////////
+
+image_osc () {
+
+	# osc - opening sequence characters
+	# verify terminal multiplexer instance and type
+
+	if [[ "${TERM}" == screen* ]] || \
+		[[ "${TERM}" == tmux* ]]
+	then
+		printf "\033Ptmux;\033\033]"
+	else
+		printf "\033]"
+	fi
+}
+
+image_tsc () {
+
+	# tsc - termination secquence characters
+	# verify terminal multiplexer instance and type
+
+	if [[ "${TERM}" == screen* || "${TERM}" == tmux* ]]
+	then
+		printf "\a\033\\"
+	else
+		printf "\a"
+	fi
+}
+
+image_unit () {
+
+	unit="${1}"
+
+	# verify image sizing unit format:
+	# [n] / [n]px / [n]% / auto
+
+	if [[ ! "$1" =~ ^(:?[0-9]+(:?px|%)?|auto)$ ]]
+	then
+		frobulator.err "Invalid image size unit" "[ '${unit}' ]"
+		echo
+
+		exit 1
+	fi
+}
+
+image_parse () {
+
+	# image_parse image inline encoding name width height ratio type block
+
+	# ${1} image:       image filename
+
+	# ${2} inline:      0 - download image
+	#                   1 - display inline
+
+	# ${3} encoding:    base64-encoded image contents
+
+	# ${4} name:        0 - no filename display after image processing
+	#                   1 - display filename after image processing
+
+	# ${5} width:       set image output width - numeric digits only
+	#                   n    - character cells
+	#                   npx  - pixels
+	#                   n%   - percentage (width only or height only)
+	#                   auto - automatic calculation to terminal output
+
+	# ${6} height:      set image output height - numeric digits only
+	#                   n    - character cells
+	#                   npx  - pixels
+	#                   n%   - percentage (width only or height only)
+	#                   auto - automatic calculation to terminal output
+
+	# ${7} ratio:       0 - fill specified height or width value to maximum terminal output
+	#                   1 - fill specified height or width value to maximum terminal output without deformation
+
+	# ${8} type:        file type hint
+	#                   "" - empty value [Default]
+	#                   mimetype  - ex.: application/json
+	#					name      - ex.: Python
+	#					extension - ex.: .sh
+
+	# ${9} block:       1 - parse and send as one monolithic block/control sequence
+	#                   0 - parse and send as multiple 200-byte block/control sequences
+
+	image="${1}"
+	inline="${2}"
+	encoding="${3}"
+	name="${4}"
+	width="${5}"
+	height="${6}"
+	ratio="${7}"
+	type="${8}"
+	block="${9}"
+
+	echo
+
+	# open sequence - begin transfer
+
+	image_osc
+
+	printf "1337;"
+
+	if [[ "${block}" -eq 1 ]]
+	then
+		printf "File"
+	else
+		printf "MultipartFile"
+	fi
+
+	printf "=inline=%s" "${inline}"
+
+	printf ";size=%d" $(printf "%s" "${encoding}" | base64 -d -i | wc -c)
+
+	if [ -n "${image}" ]
+	then
+		printf ";name=%s" "$(printf "%s" "${image}" | base64 -w 0)"
+	fi
+
+	if [ -n "${width}" ]
+	then
+		printf ";width=%s" "${width}"
+	fi
+
+	if [ -n "${height}" ]
+	then
+		printf ";height=%s" "${height}"
+	fi
+
+	if [ -n "${ratio}" ]
+	then
+		printf ";preserveAspectRatio=%s" "${ratio}"
+	fi
+
+	[ -n "${type}" ] && printf ";type=%s" "${type}"
+
+	if [[ "${block}" -eq 1 ]]
+	then
+		printf ":%s" "${encoding}"
+
+		image_tsc
+	else
+		image_tsc
+
+		# split into 200-byte parts:
+		# optimizes parsing through terminal multiplexer
+
+		bytes=200
+
+		split=$(fold -w ${bytes})
+
+		parts=$(printf "%s" "${encoding}" | ${split})
+
+		# load byte stream
+
+		for part in "${parts}"
+		do
+			image_osc
+
+			printf '1337;FilePart=%s' "${part}"
+
+			image_tsc
+		done
+
+		# terminate sequence
+
+		image_osc
+
+		printf '1337;FileEnd'
+
+		image_tsc
+	fi
+
+	echo
+
+	if [ "${name}" = "1" ]
+	then
+		echo "Image: ${image}"
+		echo
+	fi
+}
+
+image_print () {
+
+	if [ "${input}" = "stdin" ]
+	then
+		image=""
+		inline="1"
+		encoding=$(cat | base64 -w 0)
+
+	elif [ "${input}" = "tty" ]
+	then
+		inline="1"
+	fi
+
+	image_parse "${image}" "${inline}" "${encoding}" "${name}" "${width}" "${height}" "${ratio}" "${type}" "${block}"
+
+}
+
+# defaults /////////////////////////////////////////////////////////////////////
+
+image="${image}"
+
+input="${input}"
+
+inline="1"
+
+name="0"
+
+ratio="1"
+
+block="1"
+
+type=""
+
+# options //////////////////////////////////////////////////////////////////////
+
+if [ -t 0 ]
+then
+	# 'stdin' is a tty
+
+	input="tty"
+else
+	input="stdin"
+fi
+
+if [[ "${option}" = "inline" ]]
+then
+	inline="1"
+else
+	inline="0"
+fi
+
+if [[ "${option}" = "name" ]]
+then
+	name="1"
+else
+	name="0"
+fi
+
+if [[ "${option}" = "stretch" ]]
+then
+	ratio="0"
+else
+	ratio="1"
+fi
+
+if [[ "${option}" = "block" ]]
+then
+	block="1"
+fi
+
+# variables ////////////////////////////////////////////////////////////////////
+
+if [ -z "${image}" ]
+then
+	frobulator.err "No image supplied"
+	echo
+
+	exit 1
+fi
+
+if [[ "${image}" =~ ^(https?://)?[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})?(:[0-9]{1,5})?(/.*)?$ ]]
+then
+	encoding=$(curl -s -L "${image}" | base64 -w 0)
+
+	if [ ${?} -ne 0 ]
+	then
+		frobulator.err "Could not retrieve image from URL ${image}, error_code: ${?}"
+		echo
+
+		exit 2
+	fi
+
+elif [ -r "${image}" ]
+then
+	encoding=$(cat "${image}" | base64 -w 0)
+else
+	frobulator.err "${script}: ${image}: No such file or directory"
+	echo
+
+	exit 2
+fi
+
+if [ -n "${height}" ]
+then
+	image_unit "${height}"
+fi
+
+if [ -n "${width}" ]
+then
+	image_unit "${width}"
+fi
+
+image_print

@@ -22,139 +22,180 @@ This script enables displaying images directly in the terminal using a base64-en
 
 It provides various options for resizing, stretching, and parsing image files, whether local or remote. Users can adjust the dimensions of the displayed image and specify the input type, ensuring flexibility and ease of use.
 
----
+### TL;DR
 
-### Usage:
+PixTrm is a Bash terminal utility that lets you display images directly in your terminal, using a base64-encoded inline image protocol (compatible with terminals supporting iTerm2 or Kitty-style OSC 1337 sequences).
 
-```
+Quick start:
 
-bash pixtrm -i | -n | -h [Height] -w [Width] | -s | -f [File] | -u | -t [File Type] | [-b]
-
-Options
-
--i, --inline              Display the image inline in the terminal.
-
--n, --name                Display the filename after parsing the image.
-
--h, --height [Height]     Set the image height in terminal character cells.
-
--w, --width [Width]       Set the image width in terminal character cells.
-
--s, --stretch             Stretch the image to the specified width and height.
-
--f, --file                Treat following arguments as local file paths.
-
--u, --url                 Treat following arguments as remote URLs.
-
--t, --type [File Type]    Provide a type hint to assist with parsing or processing, especially for piped input.
-
--b, --block               Use the standard protocol to transfer the image as a single monolithic block or control sequence.
-
--h, --help                Show help and usage information.
+Clone the repository ↴
 
 ```
-
----
-
-### Usage Examples:
-
-Display a local image with specific dimensions:
-
-```
-bash pixtrm -w 250px -h 250px -s image.png
+git clone https://github.com/nathaneltitane/pixtrm.git
 ```
 
-Display an image from a pipe with percentage-based width:
+Move into the directory ↴
 
 ```
-cat image-01.png | bash pixtrm -w 75%
+cd pixtrm
 ```
 
-
-Display an image with percentage-based height:
-
-```
-cat image-02.jpg | bash pixtrm -h 30%
-```
-
-
-Parse and display a remote URL and a local file:
+Make it executable ↴
 
 ```
-bash pixtrm -n -w 500px -u http://host.url/path/to/image.gif -w 80 -f image.png
+chmod +x pixtrm
 ```
 
-
-Display images from a list of URLs:
-
-```
-cat url-list[.txt] | xargs bash pixtrm -n -w 40 -u
-```
-
-Display a JSON configuration file:
+Run it ↴
 
 ```
-bash pixtrm -t application/json config.json
+bash pixtrm -w 250px -h 250px image.png
 ```
+
+Or install globally ↴
+
+```
+sudo install -m 755 pixtrm /usr/local/bin/pixtrm
+```
+
+Example ↴
+
+```
+bash pixtrm -s -w 75% -h auto image.jpg
+cat photo.png | pixtrm -w 50%
+```
+
+PixTrm automatically manages dependencies (curl, frobulator) and can read images from both local files and remote URLs.
 
 ---
 
-### Image Sizing:
+### Features
 
-If width or height are not specified, the script will automatically determine appropriate values:
-
-- Numeric (n): Specifies the number of terminal character cells.
-
-- Pixels (npx): Specifies the size in pixels.
-
-- Percentage (n%): Specifies a percentage of the terminal session's width or height.
-
-- Automatic (auto): Automatically calculates dimensions based on the image size.
-
----
-
-### File Type:
-
-The file type can be:
-
-- A MIME type (text/markdown)
-
-- A language name (Java)
-
-- A file extension (.sh)
-
-Note:
-
-The script infers file type from the extension or content:
-when the filename is unavailable (piped input), the '--type' option is used to disambiguate the file type.
+* Display images inline in terminal using base64-encoded OSC protocol
+* Support for local files, URLs, and stdin pipelines
+* Adjustable width and height in characters, pixels, or percentages
+* Stretch or preserve aspect ratio control
+* Optional filename display after render
+* MIME-type and format hinting (--type) for disambiguation
+* Compatible with tmux and screen multiplexers
+* Uses [frobulator](https://github.com/nathaneltitane/frobulator) for logging, progress, and error handling
 
 ---
 
-### Notes:
+### Usage
 
-Ensure your terminal supports inline image display protocols.
+```
+pixtrm [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]
+```
 
-Use appropriate dimension formats for better control over the display.
+### Options
 
-### Projects:
+| Flag     | Long Option     | Description                                           |
+| -------- | --------------- | ----------------------------------------------------- |
+| `-i`     | `--inline`      | Display image inline (default)                        |
+| `-n`     | `--name`        | Display filename after image render                   |
+| `-h`     | `--height [n]`  | Set image height (in character cells, px, %, or auto) |
+| `-w`     | `--width [n]`   | Set image width (in character cells, px, %, or auto)  |
+| `-s`     | `--stretch`     | Stretch image to specified width and height           |
+| `-t`     | `--type [Type]` | Provide type hint (application/json, .sh, Python)     |
+| `-b`     | `--block`       | Send image as single block (monolithic transfer)      |
+| `--help` | —               | Show help and usage information                       |
+
+Examples:
+
+Display a local image with specific dimensions ↴
+
+```
+pixtrm -w 250px -h 250px -s image.png
+```
+
+Display an image from stdin ↴
+
+```
+cat image.png | pixtrm -w 75%
+```
+
+Display an image from a remote URL ↴
+
+```
+pixtrm -n -w 500px https://example.com/photo.jpg
+```
+
+Display images from a URL list ↴
+
+```
+cat url-list.txt | xargs pixtrm -n -w 40
+```
+
+Display a JSON configuration file ↴
+
+```
+pixtrm -t application/json config.json
+```
+
+---
+
+### Image Sizing
+
+If width or height are not specified, PixTrm automatically determines appropriate values.
+
+| Unit   | Meaning                                        |
+| ------ | ---------------------------------------------- |
+| `n`    | Character cells                                |
+| `npx`  | Pixel value                                    |
+| `n%`   | Percentage of terminal dimension               |
+| `auto` | Automatically scale to image’s intrinsic ratio |
+
+---
+
+### File Type Hints
+
+File type hints (--type) improve handling of files or streams where the extension is unavailable.
+
+Examples ↴
+
+| Input       | Type Hint Example |
+| ----------- | ----------------- |
+| JSON config | application/json  |
+| Script      | .sh               |
+| Markdown    | text/markdown     |
+| Language    | Python            |
+
+---
+
+### Protocol
+
+PixTrm implements the OSC 1337 inline image protocol:
+
+* Detects tmux or screen multiplexer and adapts control sequences.
+* Uses monolithic (--block) or multipart (200-byte) encoded chunks for reliability.
+* Encodes data via base64 before inline transmission.
+
+---
+
+### Notes
+
+* Requires a terminal that supports inline image protocols (e.g., iTerm2, Kitty, WezTerm).
+* Ideal for displaying previews, diagrams, or assets directly within the CLI.
+* Fully portable and compatible with Debian-based and Termux environments.
+
+---
+
+### Other Projects:
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/dextop?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=DEXTOP)](https://github.com/nathaneltitane/dextop)
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/frobulator?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=FROBULATOR)](https://github.com/nathaneltitane/frobulator)
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/gutengrab?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=GutenGrab)](https://github.com/nathaneltitane/gutengrab)
-
 [![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/l2cu?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=L²CU)](https://github.com/nathaneltitane/l2cu)
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/terminal?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=TERMINAL)](https://github.com/nathaneltitane/terminal)
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/mechablocks?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=MECHA%20//%20BLOCKS)](https://github.com/nathaneltitane/mechablocks)
+[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/legolinux?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=LEGO//LINUX)](https://github.com/nathaneltitane/legolinux)
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/pixtrm?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=PIXTRM)](https://github.com/nathaneltitane/pixtrm)
+[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/nathaneltitane?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=NATHANEL+TITANE)](https://github.com/nathaneltitane/nathaneltitane)
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/nathaneltitane?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=NATHANEL%20%2b%20TITANE)](https://github.com/nathaneltitane/nathaneltitane)
-
-[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/pewpewprints?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=PEW%21%20PEW%21%20PRINTS)](https://github.com/nathaneltitane/pewpewprints)
+[![GitHub Repo stars](https://img.shields.io/github/stars/nathaneltitane/pewpewprints?style=for-the-badge&logo=gnubash&logoColor=ffffff&label=PEWPEWPRINTS)](https://github.com/nathaneltitane/pewpewprints)
 
 ---
 
@@ -163,4 +204,3 @@ Use appropriate dimension formats for better control over the display.
 ### Enjoying Dextop? Buy me a coffee to show your appreciation!
 
 [![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ)
-
