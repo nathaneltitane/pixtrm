@@ -2,7 +2,7 @@
 
 [![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ)
 
-[[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 01-18-2025 ]
+[[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 11-07-2025 ]
 
 ---
 
@@ -202,7 +202,7 @@ PixTrm implements the OSC 1337 inline image protocol:
 
 ---
 
-[[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 01-18-2025 ]
+[[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 11-07-2025 ]
 
 ### Enjoying Dextop? Buy me a coffee to show your appreciation!
 
