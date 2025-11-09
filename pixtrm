@@ -149,7 +149,7 @@ do
 			echo -e "    The file type can usually be inferred from the extension or its contents."
 			echo -e "    The type option is most useful when a filename is not available, such as whe input comes from a pipe."
 			echo
-			echo -e "Usage examples:"
+			echo -e "Examples:"
 			echo
 			echo -e "    ${script} -w 250px -h 250px -s image.png"
 			echo
