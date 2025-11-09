@@ -16,7 +16,7 @@
 
 ### Welcome to PixTrm
 
-PixTrm is a Bash terminal utility that lets you display images directly in your terminal, using a base64-encoded inline image protocol
+PixTrm is a Bash terminal utility that lets you display images directly in your terminal, using a base64-encoded inline image protocol.
 
 It provides various options for resizing, stretching, and parsing image files, whether local or remote:
 
