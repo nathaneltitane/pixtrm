@@ -114,7 +114,7 @@ do
 
 		-h | --help)
 			echo
-			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
+			echo -e "Usage: ${script} [File] -i | -n | -x [Width] -y [Height] | -s | -t [File Type] | [-b]"
 			echo
 			echo -e "Display images in terminal using base64-encoded inline image display protocol"
 			echo
@@ -123,8 +123,8 @@ do
 			echo -e "-i, --inline     display image inline"
 			echo -e "-n, --name       display filename after parsing image"
 			echo
-			echo -e "-h, --height     set image height to n character cells"
-			echo -e "-w, --width      set image width to n character cells"
+			echo -e "-y, --height     set image height to n character cells"
+			echo -e "-x, --width      set image width to n character cells"
 			echo -e "-s, --stretch    stretch image to specified width and height"
 			echo
 			echo -e "-t, --type       provide a type hint to disambiguate parsing/processing"
@@ -172,7 +172,7 @@ do
 
 		*)
 			echo
-			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
+			echo -e "Usage: ${script} [File] -i | -n | -x [Width] -y [Height] | -s | -t [File Type] | [-b]"
 
 			echo
 			echo -e "${script}: Unknown option '${1}'"
