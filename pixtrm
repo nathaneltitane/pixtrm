@@ -130,7 +130,7 @@ do
 			echo -e "-t, --type       provide a type hint to disambiguate parsing/processing"
 			echo -e "-b, --block      use standard protocol - transfers image as a single monolithic block/control sequence"
 			echo
-			echo -e "-h, --help       show help and usage information."
+			echo -e "    --help       show help and usage information."
 			echo
 			echo -e "Image sizing:"
 			echo
