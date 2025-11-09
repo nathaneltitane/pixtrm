@@ -76,7 +76,7 @@ do
 			option="name"
 		;;
 
-		-h | --height)
+		-y | --height)
 			option="height"
 
 			height="${2}"
@@ -84,7 +84,7 @@ do
 			shift
 		;;
 
-		-w | --width)
+		-x | --width)
 			option="width"
 
 			width="${2}"
@@ -112,7 +112,7 @@ do
 			shift
 		;;
 
-		--help)
+		-h | --help)
 			echo
 			echo -e "Usage: ${script} [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]"
 			echo
