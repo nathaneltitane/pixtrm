@@ -145,7 +145,13 @@ do
 			echo
 			echo -e "File type:"
 			echo
-			echo -e "    The file type can be a mime type (i.e.: text/markdown), a language name (i.e: Java), or a file extension i.e.: (.sh)"
+			echo -e "    The file type can be:"
+			echo -e "    - a mime type         (i.e.: text/markdown)"
+			echo -e "    - a language name     (i.e: Java)"
+			echo -e "    - a file extension    (i.e.: .sh)"
+			echo
+			echo -e "    Note:"
+			echo
 			echo -e "    The file type can usually be inferred from the extension or its contents."
 			echo -e "    The type option is most useful when a filename is not available, such as whe input comes from a pipe."
 			echo
