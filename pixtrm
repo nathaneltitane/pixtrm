@@ -54,7 +54,7 @@ script=$(basename -- "${BASH_SOURCE[0]}")
 
 # version //////////////////////////////////////////////////////////////////////
 
-version="11-07-2025"
+version="2025-11-07"
 
 # variables ////////////////////////////////////////////////////////////////////
 
@@ -130,7 +130,7 @@ do
 			echo -e "-t, --type       provide a type hint to disambiguate parsing/processing"
 			echo -e "-b, --block      use standard protocol - transfers image as a single monolithic block/control sequence"
 			echo
-			echo -e "    --help       show help and usage information."
+			echo -e "-h, --help       show help and usage information."
 			echo
 			echo -e "Image sizing:"
 			echo
@@ -149,7 +149,7 @@ do
 			echo -e "    The file type can usually be inferred from the extension or its contents."
 			echo -e "    The type option is most useful when a filename is not available, such as whe input comes from a pipe."
 			echo
-			echo -e "Examples:"
+			echo -e "Usage examples:"
 			echo
 			echo -e "    ${script} -w 250px -h 250px -s image.png"
 			echo
