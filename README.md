@@ -75,7 +75,7 @@ cat photo.png | pixtrm -w 50%
 - Adjustable width and height in characters, pixels, or percentages
 - Stretch or preserve aspect ratio control
 - Optional filename display after render
-- MIME-type and format hinting (--type) for disambiguation
+- MIME-type and format hinting ('-t' / '--type') for disambiguation
 - Compatible with tmux and screen multiplexers
 - Uses [frobulator](https://github.com/nathaneltitane/frobulator) for logging, progress, and error handling
 
@@ -93,12 +93,12 @@ pixtrm [File] -i | -n | -h [Height] -w [Width] | -s | -t [File Type] | [-b]
 | -------- | --------------- | ----------------------------------------------------- |
 | `-i`     | `--inline`      | Display image inline (default)                        |
 | `-n`     | `--name`        | Display filename after image render                   |
-| `-h`     | `--height [n]`  | Set image height (in character cells, px, %, or auto) |
-| `-w`     | `--width [n]`   | Set image width (in character cells, px, %, or auto)  |
+| `-x`     | `--width [n]`   | Set image width (in character cells, px, %, or auto)  |
+| `-y`     | `--height [n]`  | Set image height (in character cells, px, %, or auto) |
 | `-s`     | `--stretch`     | Stretch image to specified width and height           |
 | `-t`     | `--type [Type]` | Provide type hint (application/json, .sh, Python)     |
 | `-b`     | `--block`       | Send image as single block (monolithic transfer)      |
-|          | `--help`        | Show help and usage information                       |
+| `-h`     | `--help`        | Show help and usage information                       |
 
 Examples:
 
