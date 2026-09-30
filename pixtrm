@@ -412,9 +412,10 @@ image_parse () {
 
 image_print () {
 
-	if [ "${input}" = "stdin" ]
+	# stdin only without a file
+
+	if [ "${input}" = "stdin" ] && [ -z "${image}" ]
 	then
-		image=""
 		encoding=$(cat | base64 -w 0)
 	fi
 
