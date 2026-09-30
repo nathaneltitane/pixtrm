@@ -191,6 +191,8 @@ do
 			echo
 			echo -e "-b, --block      Send image as a single [b]lock sequence."
 			echo
+			echo -e "                 [ multipart ] [ Default - inside tmux or screen ]"
+			echo
 			echo -e "-h, --help       Show [h]elp and usage information."
 			echo
 			echo -e "Examples:"
@@ -311,7 +313,7 @@ image_parse () {
 	#					extension - ex.: .sh
 
 	# ${9} block:       1 - parse and send as one monolithic block/control sequence
-	#                   0 - parse and send as multiple 200-byte block/control sequences
+	#                   0 - parse and send as multiple 512-byte block/control sequences
 
 	image="${1}"
 	inline="${2}"
@@ -372,18 +374,16 @@ image_parse () {
 	else
 		image_tsc
 
-		# split into 200-byte parts:
+		# split into 512-byte parts:
 		# optimizes parsing through terminal multiplexer
 
-		bytes=200
+		bytes=512
 
-		split=$(fold -w ${bytes})
-
-		parts=$(printf "%s" "${encoding}" | ${split})
+		mapfile -t parts < <(printf "%s" "${encoding}" | fold -w "${bytes}")
 
 		# load byte stream
 
-		for part in "${parts}"
+		for part in "${parts[@]}"
 		do
 			image_osc
 
@@ -435,7 +435,17 @@ name="${name:-0}"
 
 ratio="${ratio:-1}"
 
-block="${block:-1}"
+# multipart inside tmux or screen, single block otherwise
+
+if [ -z "${block}" ]
+then
+	if [[ "${TERM}" == screen* ]] || [[ "${TERM}" == tmux* ]]
+	then
+		block="0"
+	else
+		block="1"
+	fi
+fi
 
 type="${type:-}"
 
