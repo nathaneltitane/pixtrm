@@ -109,133 +109,122 @@ frobulator.script
 
 version="2026-09-29"
 
-# variables ////////////////////////////////////////////////////////////////////
-
-image="${1}"
-
-shift
-
 # usage ////////////////////////////////////////////////////////////////////////
 
 while (($#))
 do
 	case "${1}"
 	in
-		-i | --inline)
-			option="inline"
-		;;
-
-		-n | --name)
-			option="name"
-		;;
-
-		-y | --height)
-			option="height"
-
-			height="${2}"
+		-f|--file)
+			image="${2}"
 
 			shift
 		;;
 
-		-x | --width)
-			option="width"
+		-i|--inline)
+			inline="1"
+		;;
 
+		-n|--name)
+			name="1"
+		;;
+
+		-x|--width)
 			width="${2}"
 
 			shift
 		;;
 
-		-s | --stretch)
-			option="stretch"
+		-y|--height)
+			height="${2}"
+
+			shift
 		;;
 
-		-t | --type)
-			option="type"
+		-s|--stretch)
+			ratio="0"
+		;;
 
+		-t|--type)
 			type="${2}"
 
 			shift
 		;;
 
-		-b | --block)
-			option="block"
-
-			block="${2}"
-
-			shift
+		-b|--block)
+			block="1"
 		;;
 
-		-h | --help)
+		-h|--help)
 			echo
-			echo -e "Usage: ${script} [File] -i | -n | -x [Width] -y [Height] | -s | -t [File Type] | [-b]"
-			echo
-			echo -e "Display images in terminal using base64-encoded inline image display protocol"
+			echo -e "Usage: ./${script} -f [File] -i | -n | -x [Width] -y [Height] | -s | -t [Type] | -b | -h"
 			echo
 			echo -e "Options:"
 			echo
-			echo -e "-i, --inline     display image inline"
-			echo -e "-n, --name       display filename after parsing image"
+			echo -e "-f, --file       Specify image [f]ile to display."
 			echo
-			echo -e "-y, --height     set image height to n character cells"
-			echo -e "-x, --width      set image width to n character cells"
-			echo -e "-s, --stretch    stretch image to specified width and height"
+			echo -e "-i, --inline     Display image [i]nline."
 			echo
-			echo -e "-t, --type       provide a type hint to disambiguate parsing/processing"
-			echo -e "-b, --block      use standard protocol - transfers image as a single monolithic block/control sequence"
+			echo -e "-n, --name       Display file [n]ame after the image."
 			echo
-			echo -e "-h, --help       show help and usage information."
+			echo -e "-x, --width      Specify image width in cells or pi[x]els."
 			echo
-			echo -e "Image sizing:"
+			echo -e "                 [ n ]    [ character cells           ]"
+			echo -e "                 [ npx ]  [ pixels                    ]"
+			echo -e "                 [ n% ]   [ percent of session width  ]"
+			echo -e "                 [ auto ] [ Default - from image size ]"
 			echo
-			echo -e "    If width or height are not specified, an appropriate value will be chosen automatically."
-			echo -e "    Width and height are given as 'auto' or numeric digit n, defined as the number of terminal character cells."
+			echo -e "-y, --height     Specify displa[y] height of the image."
 			echo
-			echo -e "    n      character cells"
-			echo -e "    npx    pixels"
-			echo -e "    n%     percent of the session's width or height"
+			echo -e "                 [ n ]    [ character cells           ]"
+			echo -e "                 [ npx ]  [ pixels                    ]"
+			echo -e "                 [ n% ]   [ percent of session height ]"
+			echo -e "                 [ auto ] [ Default - from image size ]"
 			echo
-			echo -e "    auto   the imagesize will be used to determine the appropriate dimension dimension"
+			echo -e "-s, --stretch    Set image [s]tretch to the given width and height."
 			echo
-			echo -e "File type:"
+			echo -e "-t, --type       Specify file [t]ype hint for parsing."
 			echo
-			echo -e "    The file type can be:"
-			echo -e "    - a mime type         (i.e.: text/markdown)"
-			echo -e "    - a language name     (i.e: Java)"
-			echo -e "    - a file extension    (i.e.: .sh)"
+			echo -e "                 [ mime type ]      [ text/markdown ]"
+			echo -e "                 [ language name ]  [ java          ]"
+			echo -e "                 [ file extension ] [ .sh           ]"
 			echo
-			echo -e "    Note:"
+			echo -e "-b, --block      Send image as a single [b]lock sequence."
 			echo
-			echo -e "    The file type can usually be inferred from the extension or its contents."
-			echo -e "    The type option is most useful when a filename is not available, such as whe input comes from a pipe."
+			echo -e "-h, --help       Show [h]elp and usage information."
 			echo
-			echo -e "Usage examples:"
+			echo -e "Examples:"
 			echo
-			echo -e "    ${script} -w 250px -h 250px -s image.png"
+			echo -e "./${script} -f image.png -x 250px -y 250px -s"
 			echo
-			echo -e "    cat image-01.png | ${script} -w 75%"
-			echo -e "    cat image-02.jpg | ${script} -h 30%"
+			echo -e "cat image.png | ./${script} -x 75%"
 			echo
-			echo -e "    cat url-list[.txt] | xargs ${script} -n -w 40 -u"
-			echo
-			echo -e "    ${script} -t application/json config.json"
+			echo -e "'${script}'      [ Version // ${version} ]"
 			echo
 
 			exit
 		;;
 
+		"")
+			# handle empty argument:
+			# use default values specified in script
+
+			:
+		;;
+
 		*)
 			echo
-			echo -e "Usage: ${script} [File] -i | -n | -x [Width] -y [Height] | -s | -t [File Type] | [-b]"
-
+			echo -e "Usage: ./${script} -f [File] -i | -n | -x [Width] -y [Height] | -s | -t [Type] | -b | -h"
 			echo
-			echo -e "${script}: Unknown option '${1}'"
-			echo -e "Type './${script} --help' for help and usage information."
+			echo -e "Unknown option: '${script} ${1}':"
+			echo -e "Type './${script} -h' for help and usage information."
 			echo
 
 			exit 1
+
 		;;
 
-	esac
+		esac
 
 	shift
 
@@ -440,19 +429,28 @@ image_print () {
 
 # defaults /////////////////////////////////////////////////////////////////////
 
-image="${image}"
+inline="${inline:-0}"
 
-input="${input}"
+name="${name:-0}"
 
-inline="1"
+ratio="${ratio:-1}"
 
-name="0"
+block="${block:-1}"
 
-ratio="1"
+type="${type:-}"
 
-block="1"
+# validate arguments
 
-type=""
+for value in "${image}" "${width}" "${height}" "${type}"
+do
+	if [[ "${value}" = -* ]]
+	then
+		frobulator.err "Missing option argument" "[ ${value} ]"
+		echo
+
+		exit 1
+	fi
+done
 
 # options //////////////////////////////////////////////////////////////////////
 
@@ -465,59 +463,40 @@ else
 	input="stdin"
 fi
 
-if [[ "${option}" = "inline" ]]
-then
-	inline="1"
-else
-	inline="0"
-fi
-
-if [[ "${option}" = "name" ]]
-then
-	name="1"
-else
-	name="0"
-fi
-
-if [[ "${option}" = "stretch" ]]
-then
-	ratio="0"
-else
-	ratio="1"
-fi
-
-if [[ "${option}" = "block" ]]
-then
-	block="1"
-fi
-
 # variables ////////////////////////////////////////////////////////////////////
 
-if [ -z "${image}" ]
+if [ -z "${image}" ] && [ "${input}" = "tty" ]
 then
-	frobulator.err "No image supplied"
+	frobulator.err "Missing image file."
 	echo
 
 	exit 1
 fi
 
-if [[ "${image}" =~ ^(https?://)?[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})?(:[0-9]{1,5})?(/.*)?$ ]]
+if [ -z "${image}" ]
 then
-	encoding=$(curl -s -L "${image}" | base64 -w 0)
+	:
+
+elif [ -r "${image}" ]
+then
+	encoding=$(cat "${image}" | base64 -w 0)
+
+elif [[ "${image}" =~ ^https?://[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})?(:[0-9]{1,5})?(/.*)?$ ]]
+then
+	# curl status, not base64
+
+	encoding=$(curl -f -s -L "${image}" | base64 -w 0; exit "${PIPESTATUS[0]}")
 
 	if [ ${?} -ne 0 ]
 	then
-		frobulator.err "Could not retrieve image from URL ${image}, error_code: ${?}"
+		frobulator.err "Could not retrieve image" "[ ${image} ]"
 		echo
 
 		exit 2
 	fi
 
-elif [ -r "${image}" ]
-then
-	encoding=$(cat "${image}" | base64 -w 0)
 else
-	frobulator.err "${script}: ${image}: No such file or directory"
+	frobulator.err "File not found" "[ ${image} ]"
 	echo
 
 	exit 2
