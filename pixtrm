@@ -121,8 +121,8 @@ do
 			shift
 		;;
 
-		-i|--inline)
-			inline="1"
+		-d|--download)
+			inline="0"
 		;;
 
 		-n|--name)
@@ -157,43 +157,43 @@ do
 
 		-h|--help)
 			echo
-			echo -e "Usage: ./${script} -f [File] -i | -n | -x [Width] -y [Height] | -s | -t [Type] | -b | -h"
+			echo -e "Usage: ./${script} -f [File] -d | -n | -x [Width] -y [Height] | -s | -t [Type] | -b | -h"
 			echo
 			echo -e "Options:"
 			echo
-			echo -e "-f, --file       Specify image [f]ile to display."
+			echo -e "-f, --file        Specify image [f]ile to display."
 			echo
-			echo -e "-i, --inline     Display image [i]nline."
+			echo -e "-d, --download    Send image as a file [d]ownload instead."
 			echo
-			echo -e "-n, --name       Display file [n]ame after the image."
+			echo -e "-n, --name        Display file [n]ame after the image."
 			echo
-			echo -e "-x, --width      Specify image width in cells or pi[x]els."
+			echo -e "-x, --width       Specify image width in cells or pi[x]els."
 			echo
-			echo -e "                 [ n ]    [ character cells           ]"
-			echo -e "                 [ npx ]  [ pixels                    ]"
-			echo -e "                 [ n% ]   [ percent of session width  ]"
-			echo -e "                 [ auto ] [ Default - from image size ]"
+			echo -e "                  [ n ]    [ character cells           ]"
+			echo -e "                  [ npx ]  [ pixels                    ]"
+			echo -e "                  [ n% ]   [ percent of session width  ]"
+			echo -e "                  [ auto ] [ Default - from image size ]"
 			echo
-			echo -e "-y, --height     Specify displa[y] height of the image."
+			echo -e "-y, --height      Specify displa[y] height of the image."
 			echo
-			echo -e "                 [ n ]    [ character cells           ]"
-			echo -e "                 [ npx ]  [ pixels                    ]"
-			echo -e "                 [ n% ]   [ percent of session height ]"
-			echo -e "                 [ auto ] [ Default - from image size ]"
+			echo -e "                  [ n ]    [ character cells           ]"
+			echo -e "                  [ npx ]  [ pixels                    ]"
+			echo -e "                  [ n% ]   [ percent of session height ]"
+			echo -e "                  [ auto ] [ Default - from image size ]"
 			echo
-			echo -e "-s, --stretch    Set image [s]tretch to the given width and height."
+			echo -e "-s, --stretch     Set image [s]tretch to the given width and height."
 			echo
-			echo -e "-t, --type       Specify file [t]ype hint for parsing."
+			echo -e "-t, --type        Specify file [t]ype hint for parsing."
 			echo
-			echo -e "                 [ mime type ]      [ text/markdown ]"
-			echo -e "                 [ language name ]  [ java          ]"
-			echo -e "                 [ file extension ] [ .sh           ]"
+			echo -e "                  [ mime type ]      [ text/markdown ]"
+			echo -e "                  [ language name ]  [ java          ]"
+			echo -e "                  [ file extension ] [ .sh           ]"
 			echo
-			echo -e "-b, --block      Send image as a single [b]lock sequence."
+			echo -e "-b, --block       Send image as a single [b]lock sequence."
 			echo
-			echo -e "                 [ multipart ] [ Default - inside tmux or screen ]"
+			echo -e "                  [ multipart ] [ Default - inside tmux or screen ]"
 			echo
-			echo -e "-h, --help       Show [h]elp and usage information."
+			echo -e "-h, --help        Show [h]elp and usage information."
 			echo
 			echo -e "Examples:"
 			echo
@@ -201,7 +201,7 @@ do
 			echo
 			echo -e "cat image.png | ./${script} -x 75%"
 			echo
-			echo -e "'${script}'      [ Version // ${version} ]"
+			echo -e "'${script}'       [ Version // ${version} ]"
 			echo
 
 			exit
@@ -216,7 +216,7 @@ do
 
 		*)
 			echo
-			echo -e "Usage: ./${script} -f [File] -i | -n | -x [Width] -y [Height] | -s | -t [Type] | -b | -h"
+			echo -e "Usage: ./${script} -f [File] -d | -n | -x [Width] -y [Height] | -s | -t [Type] | -b | -h"
 			echo
 			echo -e "Unknown option: '${script} ${1}':"
 			echo -e "Type './${script} -h' for help and usage information."
@@ -415,12 +415,7 @@ image_print () {
 	if [ "${input}" = "stdin" ]
 	then
 		image=""
-		inline="1"
 		encoding=$(cat | base64 -w 0)
-
-	elif [ "${input}" = "tty" ]
-	then
-		inline="1"
 	fi
 
 	image_parse "${image}" "${inline}" "${encoding}" "${name}" "${width}" "${height}" "${ratio}" "${type}" "${block}"
@@ -429,7 +424,7 @@ image_print () {
 
 # defaults /////////////////////////////////////////////////////////////////////
 
-inline="${inline:-0}"
+inline="${inline:-1}"
 
 name="${name:-0}"
 
