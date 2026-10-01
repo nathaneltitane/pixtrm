@@ -271,7 +271,6 @@ image_unit () {
 	if [[ ! "$1" =~ ^(:?[0-9]+(:?px|%)?|auto)$ ]]
 	then
 		frobulator.err "Invalid image size unit" "[ '${unit}' ]"
-		echo
 
 		exit 1
 	fi
@@ -452,7 +451,6 @@ do
 	if [[ "${value}" = -* ]]
 	then
 		frobulator.err "Missing option argument" "[ ${value} ]"
-		echo
 
 		exit 1
 	fi
@@ -474,7 +472,6 @@ fi
 if [ -z "${image}" ] && [ "${input}" = "tty" ]
 then
 	frobulator.err "Missing image file."
-	echo
 
 	exit 1
 fi
@@ -496,14 +493,12 @@ then
 	if [ ${?} -ne 0 ]
 	then
 		frobulator.err "Could not retrieve image" "[ ${image} ]"
-		echo
 
 		exit 2
 	fi
 
 else
 	frobulator.err "File not found" "[ ${image} ]"
-	echo
 
 	exit 2
 fi
