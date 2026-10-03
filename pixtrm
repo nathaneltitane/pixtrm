@@ -490,7 +490,7 @@ then
 
 	encoding=$(curl -f -s -L "${image}" | base64 -w 0; exit "${PIPESTATUS[0]}")
 
-	frobulator.complete "Could not retrieve image" "[ ${image} ]"
+	frobulator.complete halt "Could not retrieve image" "[ ${image} ]"
 
 else
 	frobulator.err "File not found" "[ ${image} ]"
