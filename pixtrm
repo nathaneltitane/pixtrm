@@ -74,43 +74,43 @@ do
 	case "${1}"
 	in
 		-f|--file)
-			image="${2}"
+			source_image="${2}"
 
 			shift
 		;;
 
 		-d|--download)
-			inline="0"
+			state_inline="0"
 		;;
 
 		-n|--name)
-			name="1"
+			state_name="1"
 		;;
 
 		-x|--width)
-			width="${2}"
+			width_image="${2}"
 
 			shift
 		;;
 
 		-y|--height)
-			height="${2}"
+			height_image="${2}"
 
 			shift
 		;;
 
 		-s|--stretch)
-			ratio="0"
+			state_ratio="0"
 		;;
 
 		-t|--type)
-			type="${2}"
+			hint_type="${2}"
 
 			shift
 		;;
 
 		-b|--block)
-			block="1"
+			state_block="1"
 		;;
 
 		-h|--help)
@@ -221,14 +221,14 @@ image_tsc () {
 
 image_unit () {
 
-	unit="${1}"
+	size_requested="${1}"
 
 	# verify image sizing unit format:
 	# [n] / [n]px / [n]% / auto
 
 	if [[ ! "$1" =~ ^(:?[0-9]+(:?px|%)?|auto)$ ]]
 	then
-		frobulator.err "Invalid image size unit" "[ '${unit}' ]"
+		frobulator.err "Invalid image size unit" "[ '${size_requested}' ]"
 
 		exit 1
 	fi
@@ -272,15 +272,15 @@ image_parse () {
 	# ${9} block:       1 - parse and send as one monolithic block/control sequence
 	#                   0 - parse and send as multiple 512-byte block/control sequences
 
-	image="${1}"
-	inline="${2}"
-	encoding="${3}"
-	name="${4}"
-	width="${5}"
-	height="${6}"
-	ratio="${7}"
-	type="${8}"
-	block="${9}"
+	source_image="${1}"
+	state_inline="${2}"
+	content_base64="${3}"
+	state_name="${4}"
+	width_image="${5}"
+	height_image="${6}"
+	state_ratio="${7}"
+	hint_type="${8}"
+	state_block="${9}"
 
 	echo
 
@@ -290,42 +290,42 @@ image_parse () {
 
 	printf "1337;"
 
-	if [[ "${block}" -eq 1 ]]
+	if [[ "${state_block}" -eq 1 ]]
 	then
 		printf "File"
 	else
 		printf "MultipartFile"
 	fi
 
-	printf "=inline=%s" "${inline}"
+	printf "=inline=%s" "${state_inline}"
 
-	printf ";size=%d" $(printf "%s" "${encoding}" | base64 -d -i | wc -c)
+	printf ";size=%d" $(printf "%s" "${content_base64}" | base64 -d -i | wc -c)
 
-	if [ -n "${image}" ]
+	if [ -n "${source_image}" ]
 	then
-		printf ";name=%s" "$(printf "%s" "${image}" | base64 -w 0)"
+		printf ";name=%s" "$(printf "%s" "${source_image}" | base64 -w 0)"
 	fi
 
-	if [ -n "${width}" ]
+	if [ -n "${width_image}" ]
 	then
-		printf ";width=%s" "${width}"
+		printf ";width=%s" "${width_image}"
 	fi
 
-	if [ -n "${height}" ]
+	if [ -n "${height_image}" ]
 	then
-		printf ";height=%s" "${height}"
+		printf ";height=%s" "${height_image}"
 	fi
 
-	if [ -n "${ratio}" ]
+	if [ -n "${state_ratio}" ]
 	then
-		printf ";preserveAspectRatio=%s" "${ratio}"
+		printf ";preserveAspectRatio=%s" "${state_ratio}"
 	fi
 
-	[ -n "${type}" ] && printf ";type=%s" "${type}"
+	[ -n "${hint_type}" ] && printf ";type=%s" "${hint_type}"
 
-	if [[ "${block}" -eq 1 ]]
+	if [[ "${state_block}" -eq 1 ]]
 	then
-		printf ":%s" "${encoding}"
+		printf ":%s" "${content_base64}"
 
 		image_tsc
 	else
@@ -334,13 +334,13 @@ image_parse () {
 		# split into 512-byte parts:
 		# optimizes parsing through terminal multiplexer
 
-		bytes=512
+		count_bytes_part=512
 
-		mapfile -t parts < <(printf "%s" "${encoding}" | fold -w "${bytes}")
+		mapfile -t list_parts < <(printf "%s" "${content_base64}" | fold -w "${count_bytes_part}")
 
 		# load byte stream
 
-		for part in "${parts[@]}"
+		for part in "${list_parts[@]}"
 		do
 			image_osc
 
@@ -360,9 +360,9 @@ image_parse () {
 
 	echo
 
-	if [ "${name}" = "1" ]
+	if [ "${state_name}" = "1" ]
 	then
-		echo "Image: ${image}"
+		echo "Image: ${source_image}"
 		echo
 	fi
 }
@@ -371,44 +371,44 @@ image_print () {
 
 	# stdin only without a file
 
-	if [ "${input}" = "stdin" ] && [ -z "${image}" ]
+	if [ "${source_input}" = "stdin" ] && [ -z "${source_image}" ]
 	then
-		encoding=$(cat | base64 -w 0)
+		content_base64=$(cat | base64 -w 0)
 	fi
 
-	image_parse "${image}" "${inline}" "${encoding}" "${name}" "${width}" "${height}" "${ratio}" "${type}" "${block}"
+	image_parse "${source_image}" "${state_inline}" "${content_base64}" "${state_name}" "${width_image}" "${height_image}" "${state_ratio}" "${hint_type}" "${state_block}"
 
 }
 
 # defaults ─────────────────────────────────────────────────────────────────────
 
-inline="${inline:-1}"
+state_inline="${state_inline:-1}"
 
-name="${name:-0}"
+state_name="${state_name:-0}"
 
-ratio="${ratio:-1}"
+state_ratio="${state_ratio:-1}"
 
 # multipart inside tmux or screen, single block otherwise
 
-if [ -z "${block}" ]
+if [ -z "${state_block}" ]
 then
 	if [[ "${TERM}" == screen* ]] || [[ "${TERM}" == tmux* ]]
 	then
-		block="0"
+		state_block="0"
 	else
-		block="1"
+		state_block="1"
 	fi
 fi
 
-type="${type:-}"
+hint_type="${hint_type:-}"
 
 # validate arguments
 
-for value in "${image}" "${width}" "${height}" "${type}"
+for value_argument in "${source_image}" "${width_image}" "${height_image}" "${hint_type}"
 do
-	if [[ "${value}" = -* ]]
+	if [[ "${value_argument}" = -* ]]
 	then
-		frobulator.err "Missing option argument" "[ ${value} ]"
+		frobulator.err "Missing option argument" "[ ${value_argument} ]"
 
 		exit 1
 	fi
@@ -420,50 +420,50 @@ if [ -t 0 ]
 then
 	# 'stdin' is a tty
 
-	input="tty"
+	source_input="tty"
 else
-	input="stdin"
+	source_input="stdin"
 fi
 
 # variables ────────────────────────────────────────────────────────────────────
 
-if [ -z "${image}" ] && [ "${input}" = "tty" ]
+if [ -z "${source_image}" ] && [ "${source_input}" = "tty" ]
 then
 	frobulator.err "Missing image file."
 
 	exit 1
 fi
 
-if [ -z "${image}" ]
+if [ -z "${source_image}" ]
 then
 	:
 
-elif [ -r "${image}" ]
+elif [ -r "${source_image}" ]
 then
-	encoding=$(cat "${image}" | base64 -w 0)
+	content_base64=$(cat "${source_image}" | base64 -w 0)
 
-elif [[ "${image}" =~ ^https?://[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})?(:[0-9]{1,5})?(/.*)?$ ]]
+elif [[ "${source_image}" =~ ^https?://[a-zA-Z0-9.-]+(\.[a-zA-Z]{2,})?(:[0-9]{1,5})?(/.*)?$ ]]
 then
 	# curl status, not base64
 
-	encoding=$(curl -f -s -L "${image}" | base64 -w 0; exit "${PIPESTATUS[0]}")
+	content_base64=$(curl -f -s -L "${source_image}" | base64 -w 0; exit "${PIPESTATUS[0]}")
 
-	frobulator.complete halt "Could not retrieve image" "[ ${image} ]"
+	frobulator.complete halt "Could not retrieve image" "[ ${source_image} ]"
 
 else
-	frobulator.err "File not found" "[ ${image} ]"
+	frobulator.err "File not found" "[ ${source_image} ]"
 
 	exit 2
 fi
 
-if [ -n "${height}" ]
+if [ -n "${height_image}" ]
 then
-	image_unit "${height}"
+	image_unit "${height_image}"
 fi
 
-if [ -n "${width}" ]
+if [ -n "${width_image}" ]
 then
-	image_unit "${width}"
+	image_unit "${width_image}"
 fi
 
 image_print
