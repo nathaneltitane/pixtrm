@@ -1,6 +1,8 @@
 ![pixtrm](https://raw.githubusercontent.com/nathaneltitane/pixtrm/main/pixtrm.svg)
 
-[![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ)
+[![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ) [![Star](https://img.shields.io/github/stars/nathaneltitane/pixtrm.svg?style=for-the-badge&logo=github&label=Star&color=2f343f)](https://github.com/nathaneltitane/pixtrm)
+
+⭐ Useful? Star the repository - it helps others find it.
 
 [[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 2026-09-30 ]
 
