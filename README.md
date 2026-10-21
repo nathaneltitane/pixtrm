@@ -108,6 +108,7 @@ pixtrm -f [File] -d | -n | -x [Width] -y [Height] | -s | -t [Type] | -b | -h
 | `-s`     | `--stretch`       | Stretch image to specified width and height             |
 | `-t`     | `--type [Type]`   | Provide type hint (application/json, .sh, Python)       |
 | `-b`     | `--block`         | Send image as a single block sequence                   |
+| `-u`     | `--uninstall`     | Remove the installed copies of pixtrm                   |
 | `-h`     | `--help`          | Show help and usage information                         |
 
 Examples:
