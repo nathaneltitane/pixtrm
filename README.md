@@ -1,8 +1,15 @@
 ![pixtrm](https://raw.githubusercontent.com/nathaneltitane/pixtrm/main/pixtrm.svg)
 
-[![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ) Show your appreciation with a PayPal donation!
-
-[![Star](https://img.shields.io/github/stars/nathaneltitane/pixtrm.svg?style=for-the-badge&logo=github&label=Star&color=2f343f)](https://github.com/nathaneltitane/pixtrm) Useful? Star the repository - it helps others find it.
+<table>
+<tr>
+<td><a href="https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ"><img src="https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&amp;logo=paypal&amp;label=Donate" alt="Donate"></a></td>
+<td>Show your appreciation with a PayPal donation!</td>
+</tr>
+<tr>
+<td><a href="https://github.com/nathaneltitane/pixtrm"><img src="https://img.shields.io/github/stars/nathaneltitane/pixtrm.svg?style=for-the-badge&amp;logo=github&amp;label=Star&amp;color=2f343f" alt="Star"></a></td>
+<td>Useful? Star the repository - it helps others find it.</td>
+</tr>
+</table>
 
 [[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 2026-09-30 ]
 
@@ -218,4 +225,9 @@ PixTrm implements the OSC 1337 inline image protocol:
 
 [[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 2026-09-30 ]
 
-### [![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ) Enjoying PixTrm? Show your appreciation with a PayPal donation!
+<table>
+<tr>
+<td><a href="https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ"><img src="https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&amp;logo=paypal&amp;label=Donate" alt="Donate"></a></td>
+<td><strong>Enjoying PixTrm? Show your appreciation with a PayPal donation!</strong></td>
+</tr>
+</table>
