@@ -218,4 +218,4 @@ PixTrm implements the OSC 1337 inline image protocol:
 
 [[ PixTrm // Project Page ]](https://github.com/nathaneltitane/pixtrm) [ Version // 2026-09-30 ]
 
-### Enjoying PixTrm? Show your appreciation with a PayPal donation! [![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ)
+### [![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ) Enjoying PixTrm? Show your appreciation with a PayPal donation!
