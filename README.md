@@ -16,13 +16,13 @@ Useful? Star the repository - it helps others find it.
 
 ### NOTICE
 
-09-30-2026 ↴
+2026-09-30 ↴
 
 - Options reworked: '-f' / '--file' selects the image, '-d' / '--download' replaces '-i' / '--inline'
 - Width and height options are '-x' / '--width' and '-y' / '--height'
 - Multipart transfer inside tmux or screen, '-b' / '--block' forces a single block
 
-01-18-2025 ↴
+2025-01-18 ↴
 
 - Initial release
 
