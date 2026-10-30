@@ -1,4 +1,6 @@
-![pixtrm](https://raw.githubusercontent.com/nathaneltitane/pixtrm/main/pixtrm.svg)
+<p align="center"><img src="https://raw.githubusercontent.com/nathaneltitane/pixtrm/main/pixtrm.svg" alt="pixtrm"><br><b>Images in your terminal</b><br>Local, remote or piped</p>
+
+---
 
 [![Donate](https://img.shields.io/badge/Paypal-2f343f.svg?style=for-the-badge&logo=paypal&label=Donate)](https://www.paypal.com/donate?hosted_button_id=ZW3CDCANHJCWJ)<br>
 Show your appreciation with a PayPal donation!
@@ -12,15 +14,21 @@ Useful? Star the repository - it helps others find it.
 
 ### NOTICE
 
-2026-09-30 ↴
+  <details open>
+  <summary>2026-09-30</summary>
 
-- Options reworked: '-f' / '--file' selects the image, '-d' / '--download' replaces '-i' / '--inline'
-- Width and height options are '-x' / '--width' and '-y' / '--height'
-- Multipart transfer inside tmux or screen, '-b' / '--block' forces a single block
+  - Options reworked: '-f' / '--file' selects the image, '-d' / '--download' replaces '-i' / '--inline'
+  - Width and height options are '-x' / '--width' and '-y' / '--height'
+  - Multipart transfer inside tmux or screen, '-b' / '--block' forces a single block
 
-2025-01-18 ↴
+  </details>
 
-- Initial release
+  <details>
+  <summary>2025-01-18</summary>
+
+  - Initial release
+
+  </details>
 
 ---
 
