@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/nathaneltitane/pixtrm/main/pixtrm.svg" alt="pixtrm"><br><b>Images in your terminal</b><br>Local, remote or piped</p>
+<p align="center"><img src="https://raw.githubusercontent.com/nathaneltitane/pixtrm/main/pixtrm.svg" alt="pixtrm"><br><b>Images in your terminal</b><br>LOCAL. REMOTE. PIPED.</p>
 
 ---
 
